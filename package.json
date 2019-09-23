@@ -1,0 +1,24 @@
+{
+  "name": "cubusexp2019",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Avinash Chandrasekaran <rcavinash123@gmail.com>",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "hjs": "~0.0.6",
+    "hogan.js": "^3.0.2",
+    "http-errors": "~1.6.3",
+    "less-middleware": "~2.2.1",
+    "mongoose": "^5.6.4",
+    "morgan": "~1.9.1",
+    "node-zookeeper-client": "^1.0.0",
+    "redis": "^2.8.0",
+    "request": "^2.88.0",
+    "websocket": "^1.0.29"
+  }
+}
