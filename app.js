@@ -86,6 +86,7 @@ app.post('/submit-userinfo',function(rq,rs){
   var _resultObj = require("./models/verifycredrs");
   var _result = new _resultObj('','');
   uri = APIGatewayURL + "/" + userName + "/" + password;
+  console.log("APIGatewayURL : " + APIGatewayURL)
   request.post(uri,{json:true},(err,res,body)=>{
     console.log("Response recieved")
     if(err){
