@@ -86,8 +86,8 @@ app.post('/submit-userinfo',function(rq,rs){
   var password = rq.body.password;
   var _resultObj = require("./models/verifycredrs");
   var _result = new _resultObj('','');
-  uri = APIGatewayURL + "/" + userName + "/" + password;
-  console.log("APIGatewayURL : " + APIGatewayURL)
+  uri = APIGatewayURL + "/auth/validate/" + userName + "/" + password;
+  console.log("APIGatewayURL : " + uri)
   request.post(uri,{json:true},(err,res,body)=>{
     console.log("Response recieved")
     if(err){
@@ -96,8 +96,7 @@ app.post('/submit-userinfo',function(rq,rs){
       rs.render('index', { header:header, title: 'CUBUS',label_login:'Login',label_username:'Username',label_password:'Password',Error:'Unable to validate username'});    
     }
     else {
-      console.log("Redirecting with ID : " + body.result.id);
-      rs.redirect("./users?id=" + body.result.id);
+      rs.redirect("./users?id=" + res.body.result.id);
     }
   });
  }
