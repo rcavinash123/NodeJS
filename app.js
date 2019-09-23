@@ -81,6 +81,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.post('/submit-userinfo',function(rq,rs){
+ try{ 
   var userName = rq.body.username;
   var password = rq.body.password;
   var _resultObj = require("./models/verifycredrs");
@@ -95,9 +96,15 @@ app.post('/submit-userinfo',function(rq,rs){
       rs.render('index', { header:header, title: 'CUBUS',label_login:'Login',label_username:'Username',label_password:'Password',Error:'Unable to validate username'});    
     }
     else {
+      console.log("Redirecting with ID : " + body.result.id);
       rs.redirect("./users?id=" + body.result.id);
     }
   });
+ }
+ catch(e)
+ {
+   console.log("Exception occured : " + toString(e));
+ }
   
   //Code to call DB and Redis directly
 //   const uri = "mongodb+srv://cubus:@Cu2010bus@cluster0-kxvpc.mongodb.net/test?retryWrites=true&w=majority";
