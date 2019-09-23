@@ -9,20 +9,54 @@ var redis = require('redis');
 var zookeeper = require('node-zookeeper-client');
 const request = require('request');
 
-var zkclient = zookeeper.createClient('localhost:2181');
+var zkclient = zookeeper.createClient('192.168.200.198:4184,192.168.200.197:4184');
 var pathzs = process.argv[2];
 
+
+
+var APIGatewayURL = "";
 //console.log('Start');
-zkclient.once('connected', function () {
-  console.log('Connected to the server.');
-  zkclient.create('/demo', function (error) {
-      if (error) {
-          console.log('Failed to create node: %s due to: %s.', pathzs, error);
-      } else {
-          console.log('Node: %s is successfully created.', pathzs);
-      }
-      zkclient.close();
+zkclient.once('connected',function(){
+
+  zkclient.exists('/webnode', function (error, stat) {
+    if (error) {
+        console.log(error.stack);
+        return;
+    }
+    if (stat) {
+        console.log('Node exists.');
+    } else {
+      var JsonData = "{'webservernode':{'url':'https://192.168.200.148:5000'}}";
+      zkclient.create('/webnode',JsonData, function (error) {
+        if (error) {
+            console.log('Failed to create node: %s due to: %s.', pathzs, error);
+        } else {
+            console.log('Node: %s is successfully created.', pathzs);
+        }
+    });
+    }
   });
+  
+  zkclient.exists('/apigateway', function (error, stat) {
+    if (error) {
+        console.log(error.stack);
+        zkclient.close()
+        return;
+    }
+    if (stat) {
+        console.log('Node exists.');
+        zkclient.getData('/apigateway',function(error,stat){},function(error,data,stat){
+          var apidata = data.toString('utf8');
+          var jData = JSON.parse(apidata);
+          APIGatewayURL = jData["endpoints"]["url"];
+          zkclient.close()
+        });
+    } else {
+            console.log('APIGateway Node Does Not Exists');
+            zkclient.close()
+      }
+  });
+
 });
 
 zkclient.connect();
@@ -51,11 +85,17 @@ app.post('/submit-userinfo',function(rq,rs){
   var password = rq.body.password;
   var _resultObj = require("./models/verifycredrs");
   var _result = new _resultObj('','');
-  uri = "http://127.0.0.1:5002/auth/validate/" + userName + "/" + password;
+  uri = APIGatewayURL + "/" + userName + "/" + password;
   request.post(uri,{json:true},(err,res,body)=>{
     console.log("Response recieved")
-    if(err){return console.log(err);}
-    rs.redirect("./users?id=" + body.result.id);
+    if(err){
+      console.log("ERROR : " + err);
+      var header = "<div style='border-bottom: 5px solid #084e8a;'><div class='containerNewUI'><div class='containerBlock'><a href='#' id='headerLink_New' onclick='javascript:parent.ShowScreenHelper_OpenInTabOrPopUp('http://www.cubussolutions.com',screen.height,screen.width)' title='CUBUS Logo' class='logo'><img id='ctl00_ctl01_imgLogo_New' class='primarylogo' src='/images/logo.png' alt='CUBUS Logo' style='border-width:0px;'></a></div></div></div>";
+      rs.render('index', { header:header, title: 'CUBUS',label_login:'Login',label_username:'Username',label_password:'Password',Error:'Unable to validate username'});    
+    }
+    else {
+      rs.redirect("./users?id=" + body.result.id);
+    }
   });
   
   //Code to call DB and Redis directly
