@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodejs-deployment
+  name: nodejs
 spec:
   replicas: 2
   strategy:
@@ -19,16 +19,14 @@ spec:
     spec:
       containers:
       - name: nodejs-container
-        image: rcavinash123/cubusnodejs:latest
+        image: rcavinash123/cubusnodejs:v1.0.0
         ports:
-        - containerPort: 4000
+        - containerPort: 5000
         readinessProbe:
           httpGet:
              path: /
-             port: 4000
+             port: 5000
              scheme: HTTPS
           initialDelaySeconds: 5
           periodSeconds: 5
           successThreshold: 1
-      imagePullSecrets:
-         - name: regcred
