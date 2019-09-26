@@ -88,9 +88,9 @@ app.post('/submit-userinfo',function(rq,rs){
   var _result = new _resultObj('','');
 
   //APIGatewayURL = "http://0.0.0.0:4001"
-
-  uri = APIGatewayURL + "/auth/validate/" + userName + "/" + password;
-  request.post(uri,{json:true},(err,res,body)=>{
+    console.log("Before validating username");
+    uri = APIGatewayURL + "/auth/validate/" + userName + "/" + password;
+    request.post(uri,{json:true},(err,res,body)=>{
     console.log("Response recieved")
     var header = "<div style='border-bottom: 5px solid #084e8a;'><div class='containerNewUI'><div class='containerBlock'><a href='#' id='headerLink_New' onclick='javascript:parent.ShowScreenHelper_OpenInTabOrPopUp('http://www.cubussolutions.com',screen.height,screen.width)' title='CUBUS Logo' class='logo'><img id='ctl00_ctl01_imgLogo_New' class='primarylogo' src='/images/logo.png' alt='CUBUS Logo' style='border-width:0px;'></a></div></div></div>";
     if(err){
