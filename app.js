@@ -90,6 +90,7 @@ app.post('/submit-userinfo',function(rq,rs){
   //APIGatewayURL = "http://0.0.0.0:4001"
     console.log("Before validating username");
     uri = APIGatewayURL + "/auth/validate/" + userName + "/" + password;
+    console.log("URL : " + uri);
     request.post(uri,{json:true},(err,res,body)=>{
     console.log("Response recieved")
     var header = "<div style='border-bottom: 5px solid #084e8a;'><div class='containerNewUI'><div class='containerBlock'><a href='#' id='headerLink_New' onclick='javascript:parent.ShowScreenHelper_OpenInTabOrPopUp('http://www.cubussolutions.com',screen.height,screen.width)' title='CUBUS Logo' class='logo'><img id='ctl00_ctl01_imgLogo_New' class='primarylogo' src='/images/logo.png' alt='CUBUS Logo' style='border-width:0px;'></a></div></div></div>";
@@ -101,15 +102,18 @@ app.post('/submit-userinfo',function(rq,rs){
       try{
         if(res.body.result.status=="true")
         {
+          console.log("Response recieved about to redirect the user");
           rs.redirect("./users?id=" + res.body.result.data.id);
         }
         else
         {
+          console.log("Recieved Status False");
           rs.render('index', { header:header, title: 'CUBUS',label_login:'Login',label_username:'Username',label_password:'Password',Error:'Unable to validate username/password'});
         }
       }
       catch(ex)
       {
+        console.log("Exception Occured");
         rs.render('index', { header:header, title: 'CUBUS',label_login:'Login',label_username:'Username',label_password:'Password',Error:'Unable to validate username/password'});
       }
     }
