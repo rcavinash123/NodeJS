@@ -86,17 +86,32 @@ app.post('/submit-userinfo',function(rq,rs){
   var password = rq.body.password;
   var _resultObj = require("./models/verifycredrs");
   var _result = new _resultObj('','');
+
+  //APIGatewayURL = "http://0.0.0.0:4001"
+
   uri = APIGatewayURL + "/auth/validate/" + userName + "/" + password;
-  console.log("APIGatewayURL : " + uri)
   request.post(uri,{json:true},(err,res,body)=>{
     console.log("Response recieved")
+    var header = "<div style='border-bottom: 5px solid #084e8a;'><div class='containerNewUI'><div class='containerBlock'><a href='#' id='headerLink_New' onclick='javascript:parent.ShowScreenHelper_OpenInTabOrPopUp('http://www.cubussolutions.com',screen.height,screen.width)' title='CUBUS Logo' class='logo'><img id='ctl00_ctl01_imgLogo_New' class='primarylogo' src='/images/logo.png' alt='CUBUS Logo' style='border-width:0px;'></a></div></div></div>";
     if(err){
       console.log("ERROR : " + err);
-      var header = "<div style='border-bottom: 5px solid #084e8a;'><div class='containerNewUI'><div class='containerBlock'><a href='#' id='headerLink_New' onclick='javascript:parent.ShowScreenHelper_OpenInTabOrPopUp('http://www.cubussolutions.com',screen.height,screen.width)' title='CUBUS Logo' class='logo'><img id='ctl00_ctl01_imgLogo_New' class='primarylogo' src='/images/logo.png' alt='CUBUS Logo' style='border-width:0px;'></a></div></div></div>";
-      rs.render('index', { header:header, title: 'CUBUS',label_login:'Login',label_username:'Username',label_password:'Password',Error:'Unable to validate username'});    
+      rs.render('index', { header:header, title: 'CUBUS',label_login:'Login',label_username:'Username',label_password:'Password',Error:'Unable to validate username/password'});    
     }
     else {
-      rs.redirect("./users?id=" + res.body.result.id);
+      try{
+        if(res.body.result.status=="true")
+        {
+          rs.redirect("./users?id=" + res.body.result.data.id);
+        }
+        else
+        {
+          rs.render('index', { header:header, title: 'CUBUS',label_login:'Login',label_username:'Username',label_password:'Password',Error:'Unable to validate username/password'});
+        }
+      }
+      catch(ex)
+      {
+        rs.render('index', { header:header, title: 'CUBUS',label_login:'Login',label_username:'Username',label_password:'Password',Error:'Unable to validate username/password'});
+      }
     }
   });
  }

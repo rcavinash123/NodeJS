@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: nodejs-container
-        image: rcavinash123/cubusnodejs:v1.0.2
+        image: rcavinash123/cubusnodejs:v1.0.3
         ports:
         - containerPort: 5000
         readinessProbe:
