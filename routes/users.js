@@ -10,8 +10,6 @@ var clients = [ ];
 const request = require('request');
 var zookeeper = require('node-zookeeper-client');
 
-var zkclient = zookeeper.createClient('192.168.200.198:4184,192.168.200.197:4184');
-
 var userInfo = '';
 var APIGatewayURL = "";
 
@@ -20,15 +18,20 @@ var APIGatewayURL = "";
 
 /* GET users account info. */
 router.get('/', function(req, res, next) {
+  console.log("Request Recieved")
   //console.log('Base URL : ' + req.baseUrl);
+  var zkclient = zookeeper.createClient('192.168.200.198:4184,192.168.200.197:4184');
+  console.log("Zookeeper client created");
   if(req.query["id"]!=null && req.query["id"]!="" && typeof(req.query["id"])!="undefined")
   {
+    console.log("Before connecting to zookeeper");
     zkclient.once('connected',function(){
+      console.log("Zookeeper connected");
       zkclient.exists('/apigateway', function (error, stat) {
         if (error) {
-            console.log(error.stack);
+            console.log("zookeeper error : " + error.stack);
             zkclient.close()
-            return;
+            return res.error;
         }
         if (stat) {
             console.log('Node exists.');
@@ -110,6 +113,7 @@ router.get('/', function(req, res, next) {
   }
   else
   {
+    console.log("UserID is null");
     res.redirect("./");
   }
 });
