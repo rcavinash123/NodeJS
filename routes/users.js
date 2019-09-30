@@ -85,6 +85,9 @@ router.get('/', function(req, res, next) {
     
               userInfotemplate  = hogan.compile("<div id='UserInfoContainer' style='box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);margin-left: 2%;margin-top:2%;width:50%;float:right;margin-right:11%;max-width:400px;'><div id='ProfileTitle' style='height: 35px;margin-bottom: 10px;padding: 0px;border-bottom: 5px solid #69ab43;padding-top:10px;padding-left:10px;'><h2 style='padding: 0px;margin-top:0px;margin-bottom:2px;float:left;'>User Profile</h2><a href='http://127.0.0.1:8001/profile/?id="+ req.query["id"] + "'" + "style='float: right;display: inline-block;'><img src='/images/edit.svg' style='width: 20px;height: 20px;display: inline-block;padding-top:5px;padding-right:5px;'></a></div><div id='UserInfo' style='padding-left:10px;padding-right:10px;'><div style='float:left'>First Name</div><div style='float:right'>{{firstName}}</div></br></br><div style='float:left'>Last Name</div><div style='float:right'>{{lastName}}</div></br></br><div style='float:left'>Email Address</div><div style='float:right'>{{emailAddr}}</div></br></br></div></div>");
               UserInfo = userInfotemplate.render(response.body.result.data);
+              userInfo = response.body.result.data;
+              //console.log("UserInfo : " + String(userInfo));
+              console.log("Name : " + userInfo.firstName + " " + userInfo.lastName);
               res.render('users',{title:"CUBUS Account Summary",AcctInfo:acctComp,userInfo:UserInfo,Name:userInfo.firstName + " " + userInfo.lastName}); 
             }
             else{
