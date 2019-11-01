@@ -17,6 +17,7 @@ spec:
       labels:
         app: nodejs
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: nodejs-container
         image: rcavinash123/cubusnodejs:v1.0.6
