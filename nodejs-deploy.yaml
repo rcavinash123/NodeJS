@@ -20,7 +20,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: nodejs-container
-        image: rcavinash123/cubusnodejs:v1.0.9
+        image: rcavinash123/cubusnodejs:v1.1.0
         ports:
         - containerPort: 5000
       nodeSelector:
