@@ -23,4 +23,6 @@ spec:
         image: rcavinash123/cubusnodejs:v1.0.9
         ports:
         - containerPort: 5000
+      nodeSelector:
+        nodeos: windows
   
