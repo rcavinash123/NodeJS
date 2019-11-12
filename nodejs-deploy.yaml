@@ -22,9 +22,5 @@ spec:
       - name: nodejs-container
         image: rcavinash123/cubusnodejs:v1.0.9
         ports:
-<<<<<<< HEAD
-        - containerPort: 5000
-=======
         - containerPort: 5000
   
->>>>>>> 993c69827f56f218a2d3cbdfc7c32a667bf692d0
