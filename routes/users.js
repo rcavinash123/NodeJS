@@ -20,7 +20,7 @@ var APIGatewayURL = "";
 router.get('/', function(req, res, next) {
   console.log("Request Recieved")
   //console.log('Base URL : ' + req.baseUrl);
-  var zkclient = zookeeper.createClient('192.168.200.198:4184,192.168.200.197:4184');
+  var zkclient = zookeeper.createClient('192.168.200.181:2181');
   console.log("Zookeeper client created");
   if(req.query["id"]!=null && req.query["id"]!="" && typeof(req.query["id"])!="undefined")
   {

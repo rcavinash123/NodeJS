@@ -9,7 +9,7 @@ var redis = require('redis');
 var zookeeper = require('node-zookeeper-client');
 const request = require('request');
 
-var zkclient = zookeeper.createClient('192.168.200.198:4184,192.168.200.197:4184');
+var zkclient = zookeeper.createClient('192.168.200.181:2181');
 var pathzs = process.argv[2];
 
 

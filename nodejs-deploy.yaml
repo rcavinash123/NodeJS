@@ -19,14 +19,6 @@ spec:
     spec:
       containers:
       - name: nodejs-container
-        image: rcavinash123/cubusnodejs:v1.0.8
+        image: rcavinash123/cubusnodejs:v1.0.9
         ports:
         - containerPort: 5000
-        readinessProbe:
-          httpGet:
-             path: /
-             port: 5000
-             scheme: HTTPS
-          initialDelaySeconds: 5
-          periodSeconds: 30
-          successThreshold: 1
